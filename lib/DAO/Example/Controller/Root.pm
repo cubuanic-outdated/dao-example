@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use parent 'Catalyst::Controller';
 use Data::Dumper;
-$Data::Dumper::Sortkeys=1;
+$Data::Dumper::Sortkeys = 1;
 
 #
 # Sets the actions in this controller to be registered with no prefix
@@ -28,24 +28,25 @@ DAO::Example::Controller::Root - Root Controller for DAO::Example
 
 =cut
 
-sub index :Path :Args(0) {
+sub index : Path : Args(0) {
     my ( $self, $c ) = @_;
 
-    unless (-e $c->path_to('dao_example.db')) {
+    unless ( -e $c->path_to('dao_example.db') ) {
         $c->model('DB')->schema->deploy;
         $c->model('DB')->schema->init;
     }
 
     $c->res->print('<pre>');
-    $c->res->print(Dumper $c->config);
-    $c->res->print(Dumper $c->model('DB')->resultset('Person')->active->hashref_array);
-    $c->res->print(Dumper $c->model('DB')->resultset('Person')->inactive->hashref_array);
+    $c->res->print( Dumper $c->config );
+    $c->res->print( Dumper $c->model('DB')->resultset('Person')->active->hashref_array );
+    $c->res->print( Dumper $c->model('DB')->resultset('Person')->inactive->hashref_array );
+    $c->res->print( Dumper $c->model('DB')->resultset('Person')->by_username('plu')->prefetch_all->hashref_array );
     $c->res->print('</pre>');
 }
 
-sub default :Path {
+sub default : Path {
     my ( $self, $c ) = @_;
-    $c->response->body( 'Page not found' );
+    $c->response->body('Page not found');
     $c->response->status(404);
 }
 

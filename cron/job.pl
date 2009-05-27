@@ -17,3 +17,5 @@ print Dumper config;
 print Dumper schema->resultset('Person')->active->hashref_array;
 
 print Dumper schema->resultset('Person')->inactive->hashref_array;
+
+print Dumper schema->resultset('Person')->by_username('plu')->prefetch_all->hashref_array;
